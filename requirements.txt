@@ -1,0 +1,9 @@
+python-dotenv
+langchain
+langchain-google-genai
+langchain-groq
+chromadb
+pydantic
+streamlit
+fastapi
+uvicorn
