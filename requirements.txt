@@ -7,3 +7,6 @@ pydantic
 streamlit
 fastapi
 uvicorn
+openai
+tiktoken
+langchain-openai
