@@ -20,7 +20,7 @@ docs = [
 ]
 
 result = embedding_model.embed_documents(docs)
-
+    
 print(result)
 
 
