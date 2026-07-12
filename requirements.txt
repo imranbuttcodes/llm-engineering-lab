@@ -10,3 +10,16 @@ uvicorn
 openai
 tiktoken
 langchain-openai
+langchain-core
+langchain-anthropic
+google-generativeai
+langchain-huggingface
+transformers
+huggingface-hub
+numpy
+scikit-learn
+langchain_ollama
+torch 
+torchvision 
+torchaudio
+sentence-transformers
