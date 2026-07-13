@@ -24,3 +24,5 @@ torchvision
 torchaudio
 sentence-transformers
 pydantic[email]
+grandalf
+pygraphviz
