@@ -1,0 +1,27 @@
+{
+    "title": "Lesson",
+    "description": "This is the Description of Lession",
+    "type": "object",
+    
+    "properties": {
+        "topic": {
+            "type": "string",
+            "description": "Lesson Topic"
+        },
+
+        "summery": {
+            "type": "string"
+        },
+
+        "example": {
+            "type": "string"
+        }
+    },
+    
+    "required": [
+        "topic",
+        "difficulty",
+        "summery",
+        "example"
+    ]
+}
