@@ -26,3 +26,10 @@ sentence-transformers
 pydantic[email]
 grandalf
 pygraphviz
+langchain-community
+pypdf # good for text only pdfs
+pdfplumber # good with pdfs who have tables present in it 
+beautifulsoup4
+youtube-transcript-ap
+pytube
+pip install youtube-transcript-api
