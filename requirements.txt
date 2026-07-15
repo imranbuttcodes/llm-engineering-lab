@@ -32,4 +32,5 @@ pdfplumber # good with pdfs who have tables present in it
 beautifulsoup4
 youtube-transcript-ap
 pytube
-pip install youtube-transcript-api
+youtube-transcript-api
+langchain_experimental
