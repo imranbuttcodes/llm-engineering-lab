@@ -25,6 +25,11 @@ class Book(BaseModel):
 parser = PydanticOutputParser(pydantic_object=Book)
 
 
+print("Format Instructions:\n")
+print(parser.get_format_instructions())
+print('\n')
+
+
 prompt = PromptTemplate(
     template="""
     Generate a programming book 

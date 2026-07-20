@@ -5,7 +5,7 @@ from langchain_groq import ChatGroq
 
 from langchain_core.prompts import PromptTemplate
 
-from langchain.output_parsers import (
+from langchain_core.output_parsers import (
     StructuredOutputParser,
     ResponseSchema
 )
@@ -48,6 +48,9 @@ parser = StructuredOutputParser.from_response_schemas(
     response_schemas
 )
 
+print("Format Instuctions: \n")
+print(parser.get_format_instructions())
+print("\n")
 # -------------------------------
 # Create Prompt
 # -------------------------------
