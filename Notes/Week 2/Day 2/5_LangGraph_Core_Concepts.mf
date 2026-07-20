@@ -1,0 +1,976 @@
+BRO!! 🔥
+
+This is probably **the most important theory lesson** of LangGraph.
+
+If you deeply understand these **5 concepts**, then building AI agents in LangGraph becomes much easier. Everything you'll code later is just an implementation of these ideas.
+
+---
+
+# 1. LLM Workflows
+
+## What is a Workflow?
+
+A workflow is a **predefined sequence of tasks** executed to achieve a goal.
+
+Think of it as a recipe.
+
+```text
+Receive Input
+      │
+      ▼
+Task A
+      │
+      ▼
+Task B
+      │
+      ▼
+Task C
+      │
+      ▼
+Return Output
+```
+
+Every execution follows the same logic.
+
+---
+
+## Traditional Programming Workflow
+
+```python
+login()
+
+load_profile()
+
+display_dashboard()
+
+logout()
+```
+
+Same order.
+
+Every time.
+
+---
+
+## LLM Workflow
+
+Instead of normal functions, we use AI components.
+
+```text
+User
+
+↓
+
+Prompt
+
+↓
+
+LLM
+
+↓
+
+Output Parser
+
+↓
+
+Answer
+```
+
+---
+
+## More Advanced LLM Workflow
+
+```text
+User
+
+↓
+
+Retriever
+
+↓
+
+Prompt
+
+↓
+
+LLM
+
+↓
+
+Answer
+```
+
+This is exactly your PDF Chatbot.
+
+---
+
+## Common LLM Workflows
+
+---
+
+### 1. Simple Chatbot
+
+```text
+User
+
+↓
+
+LLM
+
+↓
+
+Answer
+```
+
+No tools.
+
+No memory.
+
+---
+
+### 2. RAG Workflow
+
+```text
+User
+
+↓
+
+Retriever
+
+↓
+
+Relevant Documents
+
+↓
+
+Prompt
+
+↓
+
+LLM
+
+↓
+
+Answer
+```
+
+---
+
+### 3. Tool Calling Workflow
+
+```text
+User
+
+↓
+
+LLM
+
+↓
+
+Tool
+
+↓
+
+LLM
+
+↓
+
+Answer
+```
+
+---
+
+### 4. Summarization Workflow
+
+```text
+Document
+
+↓
+
+Chunk
+
+↓
+
+Summarize Chunks
+
+↓
+
+Merge
+
+↓
+
+Final Summary
+```
+
+---
+
+### 5. Classification Workflow
+
+```text
+Text
+
+↓
+
+LLM
+
+↓
+
+Label
+```
+
+Example
+
+Positive
+
+Negative
+
+Spam
+
+Urgent
+
+---
+
+### 6. Extraction Workflow
+
+```text
+Invoice
+
+↓
+
+LLM
+
+↓
+
+JSON
+```
+
+---
+
+### 7. Multi-Step Workflow
+
+```text
+PDF
+
+↓
+
+Extract
+
+↓
+
+Search
+
+↓
+
+Analyze
+
+↓
+
+Summarize
+
+↓
+
+Answer
+```
+
+---
+
+## Limitation
+
+These workflows are mostly linear.
+
+They don't naturally support
+
+* loops
+* retries
+* branching
+* planning
+
+That's where LangGraph comes in.
+
+---
+
+# 2. Graphs, Nodes and Edges
+
+LangGraph is based on Graph Theory.
+
+A graph is simply a collection of nodes connected by edges.
+
+```text
+A -------- B
+
+ \        /
+
+   ------
+
+      C
+```
+
+---
+
+## Node
+
+A node performs one job.
+
+Think of it as a function.
+
+```text
+User
+
+↓
+
+Retriever
+
+↓
+
+LLM
+
+↓
+
+Parser
+```
+
+Each box is one node.
+
+Examples
+
+```python
+retrieve_documents()
+
+call_llm()
+
+search_web()
+
+calculate()
+
+save_memory()
+```
+
+Every one of these can be a node.
+
+---
+
+### Real Example
+
+```text
+User Question
+
+↓
+
+Retrieve Documents
+
+↓
+
+LLM
+
+↓
+
+Answer
+```
+
+Three nodes.
+
+---
+
+## Edge
+
+An edge tells the graph where to go next.
+
+```text
+Node A
+
+↓
+
+Node B
+```
+
+Simple edge.
+
+---
+
+Conditional edge
+
+```text
+Need Tool?
+
+↓
+
+YES → Tool Node
+
+↓
+
+NO → Final Answer
+```
+
+Edges are like roads connecting cities.
+
+Nodes are the cities.
+
+---
+
+## Graph
+
+A graph is simply
+
+Nodes
+
+*
+
+Edges
+
+```text
+      Retrieve
+
+      /
+
+User
+
+      \
+
+       LLM
+
+        |
+
+     Answer
+```
+
+---
+
+# Why Graph instead of Chain?
+
+Chain
+
+```text
+A
+
+↓
+
+B
+
+↓
+
+C
+```
+
+Graph
+
+```text
+      A
+
+    /   \
+
+   B     C
+
+    \   /
+
+      D
+```
+
+Graphs allow decisions.
+
+Chains don't.
+
+---
+
+# 3. State
+
+This is the heart of LangGraph.
+
+---
+
+## What is State?
+
+State is a shared object that stores everything the graph knows.
+
+Instead of every node having its own variables...
+
+Everything lives in one place.
+
+Example
+
+```python
+state = {
+    "question": "...",
+    "documents": [...],
+    "answer": "...",
+    "messages": [...],
+}
+```
+
+Every node reads it.
+
+Every node updates it.
+
+---
+
+### Example
+
+Initially
+
+```python
+state = {
+    "question":
+    "What is Attention?"
+}
+```
+
+Retriever node
+
+reads
+
+```python
+question
+```
+
+adds
+
+```python
+documents
+```
+
+Now
+
+```python
+state = {
+    "question":"What is Attention?",
+    "documents":[...]
+}
+```
+
+LLM node
+
+reads
+
+question
+
+documents
+
+adds
+
+```python
+answer
+```
+
+Now
+
+```python
+state = {
+    "question":"...",
+    "documents":[...],
+    "answer":"..."
+}
+```
+
+Notice
+
+Nobody passes variables manually.
+
+The graph shares them.
+
+---
+
+## Think of State like Google Docs
+
+Imagine five people editing one document.
+
+Everyone sees the latest version.
+
+Nobody emails Word files back and forth.
+
+That shared document is the state.
+
+---
+
+# Why State is Important
+
+Without state
+
+```python
+a = ...
+
+b = ...
+
+return ...
+
+pass ...
+
+receive ...
+
+return ...
+
+receive ...
+```
+
+Huge mess.
+
+With state
+
+Every node simply updates one shared object.
+
+Much cleaner.
+
+---
+
+# 4. Reducers
+
+Reducers solve one specific problem.
+
+Multiple nodes may update the same state field.
+
+How should LangGraph combine those updates?
+
+---
+
+Example
+
+State
+
+```python
+messages = [
+    HumanMessage(...)
+]
+```
+
+LLM Node
+
+adds
+
+```python
+AIMessage(...)
+```
+
+Tool Node
+
+adds
+
+```python
+ToolMessage(...)
+```
+
+Without rules
+
+Who wins?
+
+Should one overwrite the other?
+
+Should both remain?
+
+---
+
+Reducer decides.
+
+---
+
+Example
+
+Messages
+
+Old
+
+```python
+[
+Human
+]
+```
+
+New
+
+```python
+[
+AI
+]
+```
+
+Reducer
+
+```python
+old + new
+```
+
+Final
+
+```python
+[
+Human,
+AI
+]
+```
+
+Nothing lost.
+
+---
+
+Another example
+
+Counter
+
+Old
+
+```python
+count = 5
+```
+
+New
+
+```python
+count = 2
+```
+
+Reducer
+
+```python
+5 + 2
+```
+
+Result
+
+```python
+7
+```
+
+---
+
+Reducers answer this question:
+
+> **"If two updates target the same state field, how should they be merged?"**
+
+Common strategies:
+
+* Append to a list (e.g., chat messages)
+* Replace the old value
+* Sum numbers
+* Merge dictionaries
+
+---
+
+# 5. Graph Execution Model
+
+This is how LangGraph actually runs.
+
+Imagine
+
+```text
+START
+
+↓
+
+Node A
+
+↓
+
+Node B
+
+↓
+
+Node C
+
+↓
+
+END
+```
+
+Execution starts at START.
+
+Node A runs.
+
+Updates state.
+
+Returns.
+
+Graph checks edges.
+
+Moves to Node B.
+
+Node B updates state.
+
+Moves to Node C.
+
+Eventually reaches END.
+
+---
+
+## With Conditional Routing
+
+```text
+START
+
+↓
+
+LLM
+
+↓
+
+Need Tool?
+
+↙        ↘
+
+YES       NO
+
+↓          ↓
+
+Tool      Answer
+
+↓
+
+LLM
+
+↓
+
+END
+```
+
+Notice
+
+Execution path changes dynamically.
+
+---
+
+## Loops
+
+```text
+START
+
+↓
+
+LLM
+
+↓
+
+Need Another Tool?
+
+↓
+
+YES
+
+↓
+
+Tool
+
+↓
+
+LLM
+
+↓
+
+Need Another Tool?
+
+↓
+
+YES
+
+↓
+
+Tool
+
+↓
+
+LLM
+
+↓
+
+NO
+
+↓
+
+END
+```
+
+The graph keeps running until the condition changes.
+
+---
+
+## Human in the Loop
+
+```text
+LLM
+
+↓
+
+Delete Database?
+
+↓
+
+WAIT
+
+↓
+
+Human Approval
+
+↓
+
+Continue
+
+↓
+
+END
+```
+
+Execution pauses.
+
+Can resume minutes later.
+
+Or days later.
+
+---
+
+# Putting It All Together
+
+Imagine your future CtrlCode AI Security Officer.
+
+```text
+                 START
+                   │
+                   ▼
+            Receive GitHub URL
+                   │
+                   ▼
+             Clone Repository
+                   │
+                   ▼
+         Detect Project Language
+          ┌────────┴────────┐
+          ▼                 ▼
+      Python?            JavaScript?
+          ▼                 ▼
+     Run Bandit         Run npm audit
+          └────────┬────────┘
+                   ▼
+            Collect Findings
+                   │
+                   ▼
+           LLM Security Review
+                   │
+                   ▼
+        More Analysis Needed?
+            ┌──────────────┐
+        Yes ▼              ▼ No
+      Search CVEs      Generate Report
+            │              │
+            └──────┬───────┘
+                   ▼
+                  END
+```
+
+Here:
+
+* **Workflow:** Security analysis pipeline.
+* **Nodes:** Clone repo, detect language, run Bandit, run npm audit, LLM review, generate report.
+* **Edges:** Decide which scanner to run and whether another analysis step is needed.
+* **State:** Repository URL, detected language, scan results, CVEs, report draft, conversation history.
+* **Reducers:** Combine findings from multiple scanners into one report instead of overwriting each other.
+* **Execution Model:** The graph moves from node to node, following edges, updating shared state until it reaches the end.
+
+---
+
+# 📌 Interview Summary
+
+| Concept                   | One-Line Definition                                                                                                     |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **LLM Workflow**          | A predefined sequence of LLM-related tasks executed to accomplish a goal.                                               |
+| **Node**                  | A unit of work that performs one specific task in the graph.                                                            |
+| **Edge**                  | A connection that determines which node executes next.                                                                  |
+| **Graph**                 | A network of nodes connected by edges that defines the application's execution flow.                                    |
+| **State**                 | A shared data object that stores and passes information between nodes.                                                  |
+| **Reducer**               | A rule that specifies how concurrent updates to the same state field are merged.                                        |
+| **Graph Execution Model** | The process by which LangGraph executes nodes, updates state, follows edges, and continues until reaching the END node. |
+
+These five ideas are the conceptual foundation of LangGraph. Once they're clear, learning APIs like `StateGraph`, `add_node`, `add_edge`, `add_conditional_edges`, reducers, checkpoints, and multi-agent patterns becomes much more intuitive.
