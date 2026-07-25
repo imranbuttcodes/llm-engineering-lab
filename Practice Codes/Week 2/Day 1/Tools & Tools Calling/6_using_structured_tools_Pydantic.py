@@ -160,4 +160,7 @@ print("=" * 70)
 print("Final Answer")
 print("=" * 70)
 print(final_response.content)
+print()
+print()
+print(final_response)
 

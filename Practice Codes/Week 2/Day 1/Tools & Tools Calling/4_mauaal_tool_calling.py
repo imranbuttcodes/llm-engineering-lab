@@ -117,7 +117,9 @@ final_response = llm_with_tools.invoke(
         tool_message,
     ]
 )
-
+print()
+print(final_response)
+print()
 print("=" * 70)
 print("Final Answer")
 print("=" * 70)
