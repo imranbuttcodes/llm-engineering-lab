@@ -7,12 +7,14 @@ load_dotenv()
 
 api_key = os.getenv("HUGGINGFACEHUB_ACCESS_TOKEN")
 llm = HuggingFaceEndpoint(
-    repo_id="OpenMOSS-Team/MOSS-Transcribe-Diarize",
+    repo_id="Qwen/Qwen2.5-7B-Instruct",
     task = "text-generation",
-    huggingfacehub_api_token=api_key
+    huggingfacehub_api_token=os.getenv("HUGGINGFACEHUB_ACCESS_TOKEN")
 )
 
 model = ChatHuggingFace(llm=llm)
 
-response = model.invoke('Hi bro!')
-print(response.content)
+while True: 
+    user_input = input("You: ")
+    response = model.invoke(user_input)
+    print(response.content)
