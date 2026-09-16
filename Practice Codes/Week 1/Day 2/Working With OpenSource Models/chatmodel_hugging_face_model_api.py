@@ -5,11 +5,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-api_key = os.getenv("HUGGINGFACEHUB_ACCESS_TOKEN")
+# api_key = os.getenv("HUGGINGFACEHUB_ACCESS_TOKEN")
 llm = HuggingFaceEndpoint(
-    repo_id="Qwen/Qwen2.5-7B-Instruct",
+    repo_id="google/gemma-3-27b-it",
     task = "text-generation",
-    huggingfacehub_api_token=os.getenv("HUGGINGFACEHUB_ACCESS_TOKEN")
+    # huggingfacehub_api_token=os.getenv("HUGGINGFACEHUB_ACCESS_TOKEN")
 )
 
 model = ChatHuggingFace(llm=llm)

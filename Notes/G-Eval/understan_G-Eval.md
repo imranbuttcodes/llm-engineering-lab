@@ -1,0 +1,1 @@
+https://www.confident-ai.com/blog/g-eval-the-definitive-guide
