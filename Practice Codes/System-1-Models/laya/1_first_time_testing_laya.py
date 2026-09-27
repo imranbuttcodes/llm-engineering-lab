@@ -50,6 +50,7 @@ print("Laya Response:\n",result)
 print()
 print()
 
+print("Clearning Response\n")
 answer = result["answers"]["is_support"]
 routing = result["routing"]
 usage = result["usage"]
